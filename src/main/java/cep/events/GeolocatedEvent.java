@@ -15,6 +15,13 @@ public class GeolocatedEvent {
     
     private boolean assistance;
     private boolean fall;
+    
+    public GeolocatedEvent(String latitude, String longitude, boolean assistance, boolean fall) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.assistance = assistance;
+        this.fall = fall;
+    }
 
     /**
      * @return the latitude

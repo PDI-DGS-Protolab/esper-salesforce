@@ -4,6 +4,8 @@
  */
 package cep;
 
+import cep.events.GeolocatedEvent;
+import cep.listeners.SalesforceListener;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,26 +16,21 @@ import static org.junit.Assert.*;
  */
 public class EsperManagerTest {
     
+    EsperManager manager = new EsperManager();
+    SalesforceListener listener = new SalesforceListener();
+    
+    String query = "select * from GeolocatedEvent where fall = true";
 
-    /**
-     * Test of registerQuery method, of class EsperManager.
-     */
-    @Test
-    public void testRegisterQuery() {
-        EsperManager manager = new EsperManager();
+    public void init() {
+        manager.registerUpdateListener(manager.registerQuery(query), listener);
     }
-
-    /**
-     * Test of registerUpdateListener method, of class EsperManager.
-     */
-    @Test
-    public void testRegisterUpdateListener() {
-    }
-
-    /**
-     * Test of sendEvent method, of class EsperManager.
-     */
+    
     @Test
     public void testSendEvent() {
+        init();
+        
+        GeolocatedEvent event = new GeolocatedEvent("latitude2", "longitude", true, true);
+        
+        manager.sendEvent(event);
     }
 }

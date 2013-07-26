@@ -1,26 +1,47 @@
+package salesforce;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import model.Opportunity;
-import model.Case;
+import salesforce.model.Opportunity;
+import salesforce.model.Case;
 import com.sforce.soap.partner.PartnerConnection;
 import com.sforce.soap.partner.SaveResult;
 import com.sforce.ws.ConnectorConfig;
 import com.sforce.ws.ConnectionException;
 
 import com.sforce.soap.partner.sobject.SObject;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Date;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class SalesforceClient {
+public class SalesforceClient {
     
     static final String DEFAULT_ENDPOINT = "https://login.salesforce.com/services/Soap/u/26.0";
     static final Logger logger = Logger.getLogger(SalesforceClient.class.getName());
     
     PartnerConnection conn = null;
+    
+    public boolean login(String configPath) {
+        Properties p = new Properties();
+        try {
+            p.load(new FileReader(new File(configPath)));
+            
+            String login = p.getProperty("SF_LOGIN");
+            String pwd   = p.getProperty("SF_PWD");
+            String token = p.getProperty("SF_TOKEN");
+            
+            return login(login, pwd+token, null);
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     
     public boolean login(String username, String password, String endpoint) {
         
@@ -41,7 +62,7 @@ class SalesforceClient {
 
           success = true;
         } catch (ConnectionException ce) {
-          ce.printStackTrace();
+          logger.log(Level.SEVERE, null, ce);
         } 
         
         return success;

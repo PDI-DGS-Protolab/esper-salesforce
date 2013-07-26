@@ -1,3 +1,5 @@
+package salesforce;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -7,8 +9,8 @@
  *
  * @author mac
  */
-import model.Opportunity;
-import model.Case;
+import salesforce.model.Opportunity;
+import salesforce.model.Case;
 
 import com.sforce.ws.ConnectionException;
 
@@ -21,15 +23,13 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class SalesforceClientTest {
     
-    final static String LOGIN = "oil@tid.com";
-    // Password + Access token
-    final static String PWD   = "telefonica14YeUifA11cG7Mkn9H48OBR5a";
-    
+    static final String CONFIG_PATH = "config.properties";
+        
     SalesforceClient client = new SalesforceClient();
 
     @Test
     public void testLogin() {
-        boolean result = client.login(LOGIN, PWD, null);
+        boolean result = client.login(CONFIG_PATH);
         
         assertEquals(result, true);
     }
@@ -41,7 +41,7 @@ public class SalesforceClientTest {
         opportunity.setName("New client!");
         opportunity.setStageName("Qualification");
         
-        client.login(LOGIN, PWD, null);
+        client.login(CONFIG_PATH);
         String result = client.createOpportunity(opportunity);
          
         assertNotNull(result);
@@ -64,7 +64,7 @@ public class SalesforceClientTest {
         data.setAccount("001d000000Wi4CBAAZ");
         data.setContact("003d000001CS3hSAAT");
         
-        client.login(LOGIN, PWD, null);
+        client.login(CONFIG_PATH);
         String result = client.createCase(data);
          
         assertNotNull(result);

@@ -4,6 +4,7 @@
  */
 package cep;
 
+import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
@@ -18,7 +19,10 @@ public class EsperManager {
     private EPServiceProvider service;
     
     public EsperManager() {
-        this.service = EPServiceProviderManager.getDefaultProvider();
+        Configuration config = new Configuration();
+        config.addEventTypeAutoName("cep.events");
+        
+        this.service = EPServiceProviderManager.getDefaultProvider(config);
     }
     
     public EPStatement registerQuery(String epl) {    

@@ -1,4 +1,4 @@
-package model;
+package salesforce.model;
 
 /*
  * To change this template, choose Tools | Templates
